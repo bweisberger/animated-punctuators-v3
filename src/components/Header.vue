@@ -1,13 +1,15 @@
-<template>
-  <div class="header">
-    Header
-  </div>
+<template lang="pug">
+.header Header
 </template>
 
-<script>
+<script lang="ts">
 export default {
   name: 'Header',
 }
 </script>
 
-<style></style>
+<style lang="scss" scoped>
+.header {
+  background-color: paleturquoise;
+}
+</style>

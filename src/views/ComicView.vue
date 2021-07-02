@@ -1,21 +1,14 @@
-<template>
-  <div class="wrapper">
-    <div class="header">
-    </div>
-    <Panel>
-      <template #sentence>
-        <Sentence @clicked-period="toggleActiveHero"/>
-      </template>
-      <template #hero-active v-if="activeHero">
-        <img src="../assets/second-period-laser.gif" class="hero active"/>
-      </template>
-      <template #hero v-else>
-        <img src="../assets/second-period.png" class="hero static"/>
-      </template>
-    </Panel>
-    <div class="footer">
-    </div>
-  </div>
+<template lang="pug">
+.wrapper
+  .header
+  Panel
+    template(#sentence='')
+      Sentence( @clicked-period="toggleActiveHero")
+    template(#hero-active='' v-if="activeHero")
+      img.hero.active(src="../assets/second-period-laser.gif")
+    template(#hero v-else)
+      img.hero.static(src="../assets/second-period.png" class="hero static")
+  .footer
 </template>
 
 <script lang="ts">
@@ -45,9 +38,11 @@ export default {
 <style>
 .header {
   height: 20vh;
+  background-color: hotpink;
 }
 .footer {
   height: 20vh;
+  background-color: paleturquoise
 }
 .hero {
   position: relative;

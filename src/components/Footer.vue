@@ -1,13 +1,15 @@
-<template>
-  <div class="footer">
-    Footer
-  </div>
+<template lang="pug">
+.footer Footer
 </template>
 
-<script>
+<script lang="ts">
 export default {
   name: 'Footer',
 }
 </script>
 
-<style></style>
+<style lang="scss" scoped>
+.footer {
+  background-color: hotpink
+}
+</style>
