@@ -1,12 +1,13 @@
-<template>
-  <span class="container clickable" @click="togglePeriod">
-    <p v-if="period" class="inline-h1 text">{{withPeriod}}</p>
-    <p v-else class="inline-h1 text" :style="styleObject">{{withoutPeriod}}</p>
-  </span>
+<template lang="pug">
+span(class="container clickable" @click="togglePeriod")
+  p(v-if="period" class="inline-h1 text") {{withPeriod}}
+  p(v-else class="inline-h1 text" :style="styleObject") {{withoutPeriod}}
 </template>
 
 <script lang="ts">
-export default {
+import { defineComponent } from "@vue/runtime-core"
+
+export default defineComponent({
   name: 'Period',
   props: {
     text: {
@@ -64,12 +65,27 @@ export default {
       }
     },
   }
-}
+})
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
   .text {
     color: var(--text-color);
+    font-size: $font-size-mobile;
+    font-family: Sans-Serif;
+    display: inline;
+    @include mq(phablet){
+      font-size: $font-size-phablet;
+      font-weight: 500;
+    }
+    @include mq(tablet){
+      font-size: $font-size-tablet;
+      font-weight: 500;
+    }
+    @include mq(desktop){
+      font-size: $font-size-desktop;
+      font-weight: 500;
+    }
   }
   .text:hover {
     color: var(--text-color--hover);
