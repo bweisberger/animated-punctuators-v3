@@ -1,8 +1,8 @@
 <template lang="pug">
-div(class="panel")
-  main(class="sentence-container")
+div.panel
+  main.sentence-container
     slot(name="sentence")
-  aside(class="hero-container")
+  aside.hero-container
     slot(name="hero")
     slot(name="hero-active")
   slot
@@ -24,13 +24,13 @@ export default {
 .sentence-container {
   width: 240px;
   @include mq(phablet){
-
+    width: 400px;
   }
   @include mq(tablet){
-
+    width: 550px;
   }
   @include mq(desktop){
-
+    width: 800px;
   }
   padding-left: 20px;
 }
@@ -40,5 +40,11 @@ export default {
   justify-content: flex-end;
   width: 80px;
   z-index: -1;
+  @include mq(phablet){
+    width: 140px;
+  }
+  @include mq(tablet){
+    width: 200px;
+  }
 }
 </style>

@@ -1,7 +1,7 @@
 <template lang="pug">
-span(class="container clickable" @click="togglePeriod")
-  p(v-if="period" class="inline-h1 text") {{withPeriod}}
-  p(v-else class="inline-h1 text" :style="styleObject") {{withoutPeriod}}
+span.container.clickable(@click="togglePeriod")
+  p.inline-h1.text(v-if="period") {{withPeriod}}
+  p.inline-h1.text(v-else :style="styleObject") {{withoutPeriod}}
 </template>
 
 <script lang="ts">

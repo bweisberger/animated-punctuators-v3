@@ -51,10 +51,22 @@ export default defineComponent({
 
   .hero.static {
     width: 70px;
+    @include mq(phablet){
+      width: 120px;
+    }
+    @include mq(tablet){
+      width: 140px;
+    }
   }
 
   .hero.active {
     width: 240px;
+    @include mq(phablet){
+      width: 440px;
+    }
+    @include mq(tablet){
+      width: 500px;
+    }
   }
 }
 .footer {
