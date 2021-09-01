@@ -1,11 +1,17 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 import ComicView from '@/views/ComicView.vue';
+import About from '@/views/About.vue';
 
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
     name: 'Comic',
     component: ComicView
+  },
+  {
+    path: '/about',
+    name: 'About',
+    component: About
   },
   {
     path: '/comic-again',
