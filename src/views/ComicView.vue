@@ -53,37 +53,58 @@ export default defineComponent({
 <style lang="scss" scoped>
 .header {
   height: 20vh;
-  background-color: hotpink;
+  // background-color: hotpink;
 }
 .grenade {
-  animation: parabola 2s infinite linear;
+  animation: parabola 3.5s infinite linear;
 }
-@keyframes rotation {
-  0% {
-    transform: rotate(359deg);
-  }
-  100% {
-    transform: rotate(0deg);
+
+
+
+@include mq(desktop) {
+  $translateX0: 0vw;
+  $translateX100: -60vw;
+  $translateY0: -10vh;
+  $translateXDifference: $translateX100 - $translateX0;
+  $translateYDifference: -50vh;
+  @keyframes parabola {
+    0% { 
+      transform: translate($translateX0, $translateY0) rotate(400deg);
+    } 
+    10% { 
+      transform: translate($translateXDifference * 0.125, $translateYDifference * 0.35) rotate(220deg);
+    } 
+    20% { 
+      transform: translate($translateXDifference * 0.250, $translateYDifference * 0.45) rotate(40deg);
+    } 
+    30% { 
+      transform: translate($translateXDifference * 0.375, $translateYDifference * 0.52) rotate(-140deg);
+    } 
+    40% { 
+      transform: translate($translateXDifference * 0.5, $translateYDifference * 0.55) rotate(-320deg);
+    }   
+    50% { 
+      transform: translate($translateXDifference * 0.55, $translateYDifference * 0.56) rotate(-340deg);
+    } 
+    60% { 
+      transform: translate($translateXDifference * 0.6, $translateYDifference * 0.55) rotate(-360deg);
+    } 
+    70% { 
+      transform: translate($translateXDifference * 0.725, $translateYDifference * 0.52) rotate(-540deg);
+    } 
+    80% { 
+      transform: translate($translateXDifference * 0.850, $translateYDifference * 0.45) rotate(-720deg);
+    } 
+    90% { 
+      transform: translate($translateXDifference * 0.975, $translateYDifference * 0.35) rotate(-900deg);
+    } 
+    100% { 
+      transform: translate($translateX100 * 1.1, $translateY0) rotate(-1080deg);
+    } 
   }
 }
 
-@keyframes parabola {
-  0% { 
-    transform: translate(0px, 0px) rotate(360deg); 
-  } 
-  25% { 
-    transform: translate(-200px, -100px) rotate(200deg); 
-  }
-  50% {
-    transform: translate(-400px, -200px) rotate(100deg); 
-  }
-  75% {
-    transform: translate(-600px, -80px) rotate(50deg); 
-  } 
-  100% {
-    transform: translate(-800px, -20px) rotate(0deg); 
-  } 
-}
+
 
 .panel {
   display: flex;
