@@ -4,7 +4,6 @@ div.panel
     slot(name="sentence")
   aside.hero-container
     slot(name="hero")
-    slot(name="hero-active")
   slot
 </template>
 
@@ -14,15 +13,15 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .panel {
-  height: 40vh;
+  height: 250px;
   width: 100%;
   display: flex;
-  align-items: flex-end;
+  align-items: center;
 }
 .sentence-container {
-  width: 240px;
+  width: 50%;
   @include mq(phablet){
     width: 400px;
   }
@@ -36,10 +35,8 @@ export default {
 }
 
 .hero-container {
-  display: flex;
-  justify-content: flex-end;
-  width: 80px;
-  z-index: -1;
+  width: 50%;
+  height: 50%;
   @include mq(phablet){
     width: 140px;
   }
