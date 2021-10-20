@@ -1,19 +1,20 @@
-import { createStore } from 'vuex'
+import { createStore } from 'vuex';
+import { ComicAssetsCollection } from '@/types/ComicTypes';
 
 export default createStore({
   state: {
-    comicAssets: <ComicAssetsMap>{
+    comicAssetsCollection: <ComicAssetsCollection>{
       1: {
-        staticHeroAsset: '../assets/second-period.png',
-        activeHeroAsset1: '../assets/second-period-laser.gif',
-        activeHeroAsset2: '../assets/Grenade_Final.png',
-        heroObjectAsset2: '../assets/Single_Grenade.png'
+        staticHeroAsset: 'second-period.png',
+        activeHeroAsset1: 'second-period-laser.png',
+        activeHeroAsset2: 'Grenade_Final.png',
+        heroObjectAsset2: 'Single_Grenade.png'
       }
     }
   },
   getters: {
-    comicAssets: (state) => (comicId) => {
-      return state.comicAssets[comicId]
+    comicAssetsCollection: (state) => {
+      return state.comicAssetsCollection
     }
   },
   mutations: {
