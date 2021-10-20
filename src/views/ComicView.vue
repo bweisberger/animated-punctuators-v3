@@ -1,11 +1,11 @@
 <template lang="pug">
 .wrapper
   .header
-  Panel.panel
+  Panel
     template(#sentence='')
-      Sentence.text(@punctuation-event1="toggleActiveHero1" @punctuation-event2="toggleActiveHero2")
+      Sentence.text(@punctuation-event-1="toggleActiveHero1" @punctuation-event-2="toggleActiveHero2")
     template(#hero)
-      img.hero(:src="heroAsset")
+      img.hero(:src="getHeroImgPath()")
       img.grenade(src="../assets/Single_Grenade.png")
   .footer
 </template>
@@ -13,6 +13,9 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { mapGetters } from 'vuex';
+
+import { ComicAssets } from '@/types/ComicTypes';
+
 import { Panel, Sentence } from '@/components';
 export default defineComponent({
   name: 'ComicView',
@@ -28,24 +31,36 @@ export default defineComponent({
   },
   data() {
     return {
-      heroAsset: ''
+      comicAssets: {} as ComicAssets,
+      heroAsset: null as string | undefined | null,
+      activeHero: false,
     }
   },
-  mounted() {
-    this.heroAsset = this.comicAssets(this.comicId).staticHeroAsset
-    console.log('heroAsset -->', this.heroAsset);
+  beforeMount() {
+    this.getComicAssets();
+    this.initializeComicAssets();
   },
   computed: {
-    ...mapGetters(['comicAssets'])
+    ...mapGetters(['comicAssetsCollection'])
   },
   methods: {
-    toggleActiveHero() {
-      // this.activeHero = true;
-      // this.
-      // setTimeout(() => {
-      //  this.activeHero = false 
-      // }, 700);
-    }
+    getComicAssets() {
+      this.comicAssets = this.comicAssetsCollection[this.comicId];
+    },
+    initializeComicAssets() {
+      this.heroAsset = this.comicAssets.staticHeroAsset;
+    },
+    toggleActiveHero1() {
+      this.activeHero = true;
+      this.heroAsset = this.comicAssets.activeHeroAsset1
+      setTimeout(() => {
+       this.heroAsset = this.comicAssets.staticHeroAsset;
+       this.activeHero = false 
+      }, 1000);
+    },
+    getHeroImgPath() {
+      return require(`../assets/heroImages/${this.heroAsset}`);
+    },
   }
 })
 </script>
@@ -53,20 +68,33 @@ export default defineComponent({
 <style lang="scss" scoped>
 .header {
   height: 20vh;
-  // background-color: hotpink;
+  background-color: hotpink;
 }
 .grenade {
-  animation: parabola 3.5s infinite linear;
+  animation: parabola 2.5s infinite linear;
+  @include mq(desktop) {
+    animation: parabola 3.5s infinite linear;
+  }
+  height: 40px;
+  position: relative;
+  z-index: 2;
+  top: -80px;
+  left: -30px;
 }
 
+.hero {
+  position: relative;
+  margin-left: auto;
+  left: 50px;
+  height: 100%;
+  z-index: -1;
+}
 
-
-@include mq(desktop) {
   $translateX0: 0vw;
-  $translateX100: -60vw;
+  $translateX100: -55vw;
   $translateY0: -10vh;
   $translateXDifference: $translateX100 - $translateX0;
-  $translateYDifference: -50vh;
+  $translateYDifference: -40vh;
   @keyframes parabola {
     0% { 
       transform: translate($translateX0, $translateY0) rotate(400deg);
@@ -102,37 +130,7 @@ export default defineComponent({
       transform: translate($translateX100 * 1.1, $translateY0) rotate(-1080deg);
     } 
   }
-}
 
-
-
-.panel {
-  display: flex;
-  align-items: center;
-  .hero {
-    position: relative;
-  }
-
-  .hero.static {
-    width: 70px;
-    @include mq(phablet){
-      width: 120px;
-    }
-    @include mq(tablet){
-      width: 140px;
-    }
-  }
-
-  .hero.active {
-    width: 240px;
-    @include mq(phablet){
-      width: 440px;
-    }
-    @include mq(tablet){
-      width: 500px;
-    }
-  }
-}
 .footer {
   height: 20vh;
   background-color: paleturquoise;
