@@ -1,10 +1,10 @@
 <template lang="pug">
 .sentence
-  Capital(text="h" @click="$emit('clicked-capital')")
+  Capital(text="h" @click="$emit('punctuation-event-2')")
   p.inline-h1.clickable ere is the first hero to the show about 6
-  Period(text="ft" spaces="end" @click="$emit('clicked-period')")
+  Period(text="ft" spaces="end" @click="$emit('punctuation-event-1')")
   p.inline-h1.clickable in stature whose hair is that of a
-  Period(text="god" spaces="both" @click="$emit('clicked-period')")
+  Period(text="god" spaces="both" @click="$emit('punctuation-event-1')")
 </template>
 
 <script lang="ts">
