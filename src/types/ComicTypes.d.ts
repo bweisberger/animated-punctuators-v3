@@ -1,9 +1,12 @@
 export interface ComicAssets {
-  staticHeroAsset?: string,
-  activeHeroAsset1?: string,
-  activeHeroAsset2?: string,
-  heroObjectAsset1?: string,
-  heroObjectAsset2?: string
+  staticHero1?: string,
+  hero1Entry?: string,
+  activeHero1_1?: string,
+  activeHero1_2?: string,
+  weapon1?: string,
+  weapon2?: string,
+  weapon2Effect?: string,
+  externalDialogue?: string
 }
 
 export interface ComicAssetsCollection {
