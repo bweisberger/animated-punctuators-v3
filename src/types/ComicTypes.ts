@@ -12,6 +12,7 @@ export interface HeroAssets {
   punctuating2?: string,
   weapon1?: string,
   weapon2?: string,
+  weapon2Effect?: string,
   entry?: string,
 }
 
@@ -33,4 +34,16 @@ export enum HeroState {
 export enum Weapons {
   LASER,
   GRENADE
+}
+
+export interface HeroToAnimationTimingMap {
+  [index: string]: HeroAnimationTiming
+}
+
+export interface HeroAnimationTiming {
+  punctuating2?: number,
+  weapon2Start?: number,
+  weapon2End?: number,
+  weapon2Effect?: number,
+  entry?: number,
 }
