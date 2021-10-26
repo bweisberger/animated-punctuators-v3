@@ -3,10 +3,10 @@
   .header
   Panel
     template(#sentence='')
-      Sentence.text(@punctuation-event-1="toggleActiveHero1" @punctuation-event-2="toggleActiveHero2")
-    template(#hero)
-      img.hero(:src="getHeroImgPath()")
-      img.weapon-2(:src="getWeapon2ImgPath()")
+      Sentence.text(@punctuation-event-1="punctuationAnimation1" @punctuation-event-2="punctuationAnimation2")
+    template(#hero-1).hero-1
+      img.hero(:src="hero1ImgPath")
+      img.weapon-2(:src="hero1Weapon2ImgPath" v-if="showHero1Weapon2 || showHero1Weapon2Effect")
   .footer
 </template>
 
@@ -14,9 +14,10 @@
 import { defineComponent } from 'vue';
 import { mapGetters } from 'vuex';
 
-import { ComicAssets } from '@/types/ComicTypes';
+import { ExtraAssets, HeroAssets, HeroState } from '@/types/ComicTypes';
 
 import { Panel, Sentence } from '@/components';
+import { HeroAnimationTiming } from '@/types/ComicTypes';
 export default defineComponent({
   name: 'ComicView',
   components: {
@@ -31,45 +32,71 @@ export default defineComponent({
   },
   data() {
     return {
-      comicAssets: {} as ComicAssets,
-      heroAsset: null as string | undefined | null,
-      weapon1: null as string | undefined | null,
-      weapon2: null as string | undefined | null,
-      activeHero: false
+      heroAssets: [] as HeroAssets[],
+      heroNames: [] as string[],
+      extraAssets: {} as ExtraAssets,
+      hero1State: HeroState.STATIC as HeroState,
+      showHero1Weapon2: false,
+      showHero1Weapon2Effect: false,
     }
   },
   beforeMount() {
     this.getComicAssets();
-    this.initializeComicAssets();
   },
   computed: {
-    ...mapGetters(['comicAssetsCollection'])
+    hero1Assets(): HeroAssets {
+      return this.heroAssets[0];
+    },
+    hero1Name(): string {
+      return this.heroNames[0];
+    },
+    hero1AnimationTiming(): HeroAnimationTiming {
+      return this.heroTiming(this.hero1Name);
+    },
+    hero1ImgPath(): void {
+      return require(`../assets/${this.hero1Name}/${this.hero1Assets[this.hero1State]}`);
+    },
+    hero1Weapon2ImgPath(): void {
+      return this.showHero1Weapon2Effect ? 
+        require(`../assets/${this.hero1Name}/${this.hero1Assets.weapon2Effect}`) : 
+        require(`../assets/${this.hero1Name}/${this.hero1Assets.weapon2}`);
+    },
+    ...mapGetters(['comicHeroes', 'allHeroAssets', 'comicExtraAssets', 'singleHeroAssets', 'heroTiming'])
   },
   methods: {
-    getComicAssets() {
-      this.comicAssets = this.comicAssetsCollection[this.comicId];
+    getComicAssets(): void {
+      this.heroNames = this.comicHeroes(this.comicId);
+      this.heroAssets = this.allHeroAssets(this.heroNames);
+      this.extraAssets = this.comicExtraAssets(this.comicId);
     },
-    initializeComicAssets() {
-      const { staticHero, weapon1, weapon2 } = this.comicAssets;
-      this.heroAsset = staticHero;
-      this.weapon1 = weapon1;
-      this.weapon2 = weapon2;
+    punctuationAnimation1(): void {
+      this.punctuateHero1(1);
     },
-    toggleActiveHero1() {
-      const { staticHero, activeHero1, activeHero2 } = this.comicAssets;
-      this.activeHero = true;
-      this.heroAsset = activeHero2;
+    punctuationAnimation2(): void {
+      this.punctuateHero1(2);
+    },
+    punctuateHero1(style: number): void {
+      this.hero1State = HeroState[`PUNCTUATING${style}`];
+      const delay = this.hero1AnimationTiming[`punctuating${style}`];
+      this.handleHero1Weapon(style);
       setTimeout(() => {
-       this.heroAsset = staticHero;
-       this.activeHero = false 
-      }, 1000);
+       this.hero1State = HeroState.STATIC;
+      }, delay);
     },
-    getHeroImgPath() {
-      return require(`../assets/second period/${this.heroAsset}`);
-    },
-    getWeapon2ImgPath() {
-      return require(`../assets/second period/${this.weapon2}`);
-    },
+    handleHero1Weapon(style: number) {
+      if (this.hero1AnimationTiming[`weapon${style}Start`]) {
+        const appearDelay = this.hero1AnimationTiming[`weapon${style}Start`];
+        const disappearDelay = this.hero1AnimationTiming[`weapon${style}End`];
+        setTimeout(() => {
+          this[`showHero1Weapon${style}`] = true;
+        }, appearDelay);
+        setTimeout(() => {
+          this[`showHero1Weapon${style}`] = false;
+          this[`showHero1Weapon${style}Effect`] = true;
+        }, disappearDelay);
+
+      }
+    }
   }
 })
 </script>
@@ -83,14 +110,16 @@ export default defineComponent({
   position: relative;
   z-index: 2;
   height: 15%;
-  top: -150px;
+  top: -100px;
   left: 30px;
   animation: parabola 2.5s infinite linear;
   @include mq(desktop) {
     height: 22%;
-    animation: parabola 3.5s infinite linear;
+    top: -150px;
+    animation: parabola 2.5s infinite linear;
   }
 }
+
 
 .hero {
   z-index: -1;
@@ -102,9 +131,10 @@ export default defineComponent({
   }
 }
 
+
 $translateX0: 0vw;
-$translateX100: -52vw;
-$translateY0: -10vh;
+$translateX100: -40vw;
+$translateY0: -5vh;
 $translateXDifference: $translateX100 - $translateX0;
 $translateYDifference: -40vh;
 @keyframes parabola {

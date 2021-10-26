@@ -3,7 +3,14 @@ span.container.clickable(@click="toggleCapital")
   .inline-h1.text(:class="toggleClass" :style="styleObject") {{letter}}
 </template>
 
-<script>
+<script lang="ts">
+import { mapGetters } from 'vuex';
+
+interface StyleOptions {
+  '--text-color': string,
+  '--text-color--hover': string,
+}
+
 export default {
   name: 'Capital',
   props: {
@@ -27,35 +34,37 @@ export default {
     }
   },
   computed: {
-    styleObject() {
+    styleObject(): StyleOptions {
       return {
         '--text-color': this.textColor.base,
         '--text-color--hover': this.textColor.hover,
       }
-    }
+    },
+    ...mapGetters(['heroTiming'])
   },
   methods: {
-    toggleCapital() {
+    toggleCapital(): void {
+      const startCapital = this.heroTiming('second-period').weapon2End;
+      const blackHoleTime = this.heroTiming('second-period').weapon2Effect;
       if (!this.capital) {
-        this.toggleClass = "toggled"
         this.capital = true;
         this.$emit('click');
         setTimeout(() => {
+          this.toggleClass = 'toggled';
+        }, startCapital)
+        setTimeout(() => {
           this.letter = this.letter.toUpperCase();
-        }, 2000)
+        }, startCapital + (blackHoleTime/2))
       }
     }
   }
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
   .text {
     color: var(--text-color);
-    font-family: Sans-Serif;
-    font-weight: 500;
     display: inline;
-    font-size: 30px;
   }
 
   .text.toggled {
@@ -63,10 +72,16 @@ export default {
   }
 
   @keyframes black-hole {
-    0% {perspective: none;}
-    50% {perspective: 100px;}
-    100% {perspective: 500px;}
+    50% {font-size: 0px; opacity: 0;}
+    100% {font-size: $font-size-mobile; opacity: 1;}
   }
+
+@include mq(desktop) {
+  @keyframes black-hole {
+      50% {font-size: 0px; opacity: 0;}
+      100% {font-size: $font-size-desktop; opacity: 1;}
+    }
+}
 
 
   .text:hover {
