@@ -1,0 +1,20 @@
+.sentence {
+  .inline-h1 {
+    font-size: $font-size-mobile;
+    font-family: Sans-Serif;
+    display: inline;
+    
+    @include mq(phablet){
+      font-size: $font-size-phablet;
+      font-weight: 500;
+    }
+    @include mq(tablet){
+      font-size: $font-size-tablet;
+      font-weight: 500;
+    }
+    @include mq(desktop){
+      font-size: $font-size-desktop;
+      font-weight: 500;
+    }
+  }
+}

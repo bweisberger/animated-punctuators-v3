@@ -2,10 +2,13 @@
 span.container.clickable(@click="togglePeriod")
   p.inline-h1.text(v-if="period") {{withPeriod}}
   p.inline-h1.text(v-else :style="styleObject") {{withoutPeriod}}
+  img.period-flash(:src="periodFlashImgPath" v-if="showPeriodFlash")
 </template>
 
 <script lang="ts">
 import { defineComponent } from "@vue/runtime-core"
+
+import { PeriodSpaces } from '@/types/LanguageTypes';
 
 export default defineComponent({
   name: 'Period',
@@ -24,27 +27,28 @@ export default defineComponent({
       textColor: {
         base: '#0000000',
         hover: '#c9c4c3',
-      }
+      },
+      showPeriodFlash: false
     }
   },
   computed: {
     withPeriod(): string {
-      if (this.spaces === 'both') {
+      if (this.spaces === PeriodSpaces.BOTH) {
         return ` ${this.text}. `;
-      } else if (this.spaces === 'front') {
+      } else if (this.spaces === PeriodSpaces.BEFORE) {
         return ` ${this.text}.`;
-      } else if (this.spaces === 'end') {
+      } else if (this.spaces === PeriodSpaces.AFTER) {
         return `${this.text}. `;
       } else {
         return `${this.text}.`;
       }
     },
     withoutPeriod(): string {
-      if (this.spaces === 'both') {
+      if (this.spaces === PeriodSpaces.BOTH) {
         return ` ${this.text} `;
-      } else if (this.spaces === 'front') {
+      } else if (this.spaces === PeriodSpaces.BEFORE) {
         return ` ${this.text}`;
-      } else if (this.spaces === 'end') {
+      } else if (this.spaces === PeriodSpaces.AFTER) {
         return `${this.text} `;
       } else {
         return `${this.text}`;
@@ -55,13 +59,24 @@ export default defineComponent({
         '--text-color': this.textColor.base,
         '--text-color--hover': this.textColor.hover
       }
-    }
+    },
+    periodFlashImgPath(): void {
+      return require('../assets/second-period/period-flash.png');
+    },
   },
   methods: {
     togglePeriod(): void {
       if (!this.period) {
-        this.period = true;
         this.$emit('click');
+        setTimeout(() => {
+          this.showPeriodFlash = true
+        }, 1000)
+        setTimeout(() => {
+          this.showPeriodFlash = false
+        }, 2100)
+        setTimeout(() => {
+          this.period = true;
+        }, 2100)
       }
     },
   }
@@ -69,6 +84,18 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+.period-flash {
+  position: relative;
+  height: 15px;
+  z-index: -1;
+  left: -11px;
+  top: 10px;
+  @include mq(desktop) {
+    height: 30px;
+    left: -25px;
+    top: 10px;
+  }
+}
   .text {
     color: var(--text-color);
     font-size: $font-size-mobile;

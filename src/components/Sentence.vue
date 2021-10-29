@@ -1,38 +1,64 @@
 <template lang="pug">
-div(class="sentence")
-  p(class="inline-h1 clickable") Here is the first hero to the show about 6
-  Period(text="ft" spaces="end" @click="$emit('clicked-period')")
-  p(class="inline-h1 clickable") in stature whose hair is that of a
-  Period(text="god" spaces="both" @click="$emit('clicked-period')")
+.sentence
+  Capital(:text="capitals[0].text" @click="handleCapitalClick(capitals[0].text)")
+  p.inline-h1.clickable ere is the first hero to the
+  Period(:text="periods[0].text" :spaces="periods[0].spaces" @click="handlePeriodClick(periods[0].text)")
+  Capital(:text="capitals[1].text" @click="handleCapitalClick(capitals[1].text)")
+  p.inline-h1.clickable bout 6
+  Period(:text="periods[1].text" :spaces="periods[1].spaces" @click="handlePeriodClick(periods[1].text)")
+  p.inline-h1.clickable in stature whose hair is that of a
+  Period(:text="periods[2].text" :spaces="periods[2].spaces" @click="handlePeriodClick(periods[2].text)")
 </template>
 
 <script lang="ts">
-import Period from './Period.vue'
+import { defineComponent } from '@vue/runtime-core';
 
-export default {
+import { PeriodSpaces } from '@/types/LanguageTypes';
+
+import Period from './Period.vue'
+import Capital from './Capital.vue'
+
+export default defineComponent({
   name: 'Sentence',
   components: {
+    Capital,
     Period
   },
-}
+  data() {
+    return {
+      periods: [
+        {
+          text: 'show',
+          spaces: PeriodSpaces.BOTH
+        },
+        {
+          text: 'ft',
+          spaces: PeriodSpaces.AFTER
+        },
+        {
+          text: 'god',
+          spaces: PeriodSpaces.BOTH
+        }
+      ],
+      capitals: [
+        {
+          text: 'h'
+        },
+        {
+          text: 'a'
+        }
+      ]
+    }
+  },
+  methods: {
+    handlePeriodClick(periodText: string) {
+      this.$emit('punctuation-event-1', periodText);
+    },
+    handleCapitalClick(capitalText: string) {
+      this.$emit('punctuation-event-2', capitalText);
+    }
+  },
+})
 </script>
 
-<style lang="scss" scoped>
-.inline-h1 {
-  font-size: $font-size-mobile;
-  font-family: Sans-Serif;
-  display: inline;
-  @include mq(phablet){
-    font-size: $font-size-phablet;
-    font-weight: 500;
-  }
-  @include mq(tablet){
-    font-size: $font-size-tablet;
-    font-weight: 500;
-  }
-  @include mq(desktop){
-    font-size: $font-size-desktop;
-    font-weight: 500;
-  }
-}
-</style>
+<style lang="scss" scoped></style>

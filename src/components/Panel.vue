@@ -3,48 +3,38 @@ div.panel
   main.sentence-container
     slot(name="sentence")
   aside.hero-container
-    slot(name="hero")
-    slot(name="hero-active")
+    slot(name="hero-1")
   slot
 </template>
 
 <script>
-export default {
+import { defineComponent } from "@vue/runtime-core"
+
+export default defineComponent({
   name: 'Panel',
-}
+})
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .panel {
-  height: 40vh;
+  height: 250px;
   width: 100%;
   display: flex;
-  align-items: flex-end;
+  align-items: center;
 }
 .sentence-container {
-  width: 240px;
-  @include mq(phablet){
-    width: 400px;
-  }
-  @include mq(tablet){
-    width: 550px;
-  }
-  @include mq(desktop){
-    width: 800px;
-  }
+  width: 50%;
   padding-left: 20px;
+  @include mq(desktop) {
+    width: 70%;
+  }
 }
 
 .hero-container {
-  display: flex;
-  justify-content: flex-end;
-  width: 80px;
-  z-index: -1;
-  @include mq(phablet){
-    width: 140px;
-  }
-  @include mq(tablet){
-    width: 200px;
+  width: 40%;
+  height: 100%;
+  @include mq(desktop) {
+    width: auto;
   }
 }
 </style>

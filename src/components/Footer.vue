@@ -1,5 +1,5 @@
 <template lang="pug">
-.footer Footer
+.footer copyright Ty Rickers 2021
 </template>
 
 <script lang="ts">
@@ -10,6 +10,13 @@ export default {
 
 <style lang="scss" scoped>
 .footer {
-  background-color: hotpink
+  background-color: paleturquoise;
+  height: 10vh;
+  width: 100%;
+  text-align: center;
+  padding: 10px;
+  @include mq(desktop) {
+    height: 5vh;
+  }
 }
 </style>

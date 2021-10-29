@@ -3,9 +3,10 @@ import ComicView from '@/views/ComicView.vue';
 
 const routes: Array<RouteRecordRaw> = [
   {
-    path: '/',
+    path: '/comic/:comicId',
     name: 'Comic',
-    component: ComicView
+    component: ComicView,
+    props: true
   },
   {
     path: '/comic-again',
