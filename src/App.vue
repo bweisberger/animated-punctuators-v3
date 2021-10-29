@@ -1,7 +1,8 @@
 <template lang="pug">
-#nav
-  router-link(to="/about") About
-router-view
+#app
+  Header
+  router-view.main
+  Footer
 </template>
 
 <script lang="ts">
@@ -16,16 +17,13 @@ export default {
 </script>
 
 <style lang="scss">
-#nav {
-  padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
-    }
+body {
+  margin: 0;
+}
+.main {
+  height: 80vh;
+  @include mq(desktop) {
+    height: 85vh;
   }
 }
 </style>

@@ -8,9 +8,11 @@ div.panel
 </template>
 
 <script>
-export default {
+import { defineComponent } from "@vue/runtime-core"
+
+export default defineComponent({
   name: 'Panel',
-}
+})
 </script>
 
 <style lang="scss" scoped>
@@ -29,7 +31,7 @@ export default {
 }
 
 .hero-container {
-  width: 50%;
+  width: 40%;
   height: 100%;
   @include mq(desktop) {
     width: auto;
