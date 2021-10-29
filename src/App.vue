@@ -7,13 +7,15 @@
 
 <script lang="ts">
 import { Header, Footer } from '@/components';
-export default {
+import { defineComponent } from '@vue/runtime-core';
+
+export default defineComponent({
   name: 'App',
   components: {
     Header,
     Footer
   }
-}
+})
 </script>
 
 <style lang="scss">
