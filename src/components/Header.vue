@@ -13,7 +13,7 @@ export default {
 
 <style lang="scss" scoped>
 .header {
-  background-color: hotpink;
+  background-color: chartreuse;
   height: 10vh;
   width: 100%;
   padding: 20px;
